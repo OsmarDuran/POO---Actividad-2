@@ -1,0 +1,34 @@
+package org.example;
+
+public class QSG{
+    public static <T extends Comparable> T[] ordena(T A[], int izq, int der) { //no hallé una forma de acomodar sin usar la interfaz Comparable, por eso no pude hacer extends Number para restringir el acceso a String
+
+        T pivote= A[izq]; // tomamos primer elemento como pivote
+        int i=izq;         // i realiza la búsqueda de izquierda a derecha
+        int j=der;         // j realiza la búsqueda de derecha a izquierda
+        T aux;
+
+        while(i < j){                          // mientras no se crucen las búsquedas
+            while( A[i].compareTo(pivote)!=1 && i < j) // busca elemento mayor que pivote
+                i++;
+            while(A[j].compareTo(pivote)==1)  // busca elemento menor que pivote
+                j--;
+            if (i < j) {                        // si no se han cruzado
+                aux= A[i];                      // los intercambia
+                A[i]=A[j];
+                A[j]= aux;
+            }
+        }
+
+        A[izq]=A[j];      // se coloca el pivote en su lugar de forma que tendremos
+        A[j]= pivote;      // los menores a su izquierda y los mayores a su derecha, con cast
+
+        if(izq < j-1)
+            ordena(A,izq,j-1);          // ordenamos subarray izquierdo
+        if(j+1 < der)
+            ordena(A,j+1,der);          // ordenamos subarray derecho
+
+        return A;
+    }
+
+}
